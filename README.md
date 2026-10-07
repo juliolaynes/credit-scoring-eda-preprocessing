@@ -1,35 +1,46 @@
-# Credit Scoring: Exploratory Data Analysis & Preprocessing Pipeline
-This project focuses on building a robust data pipeline to analyze and preprocess customer data fot a Credit Scoring system. The core objective is to evaluate credit risk, helping to determine which profiles ar eligible for higher credit limits and which presejt a higher risk of default.
+# Credit Scoring: End-to-End Machine Learning Pipeline
 
-## Business Problem & Objectives 
-In the financial sector, accurately assessing credit risk is crucial to balance profitability and default rates. This repository contains the complete foundation od a data science project:
-*Understand the socio-economic and behavioral factors that influence credit scores.
-*Perform univariate and bivariate analyses to uncover hidden patterns in data distributions.
-*Clean, transform and prepare the dataset addressing real-world issues like missing values and highly imbalanced classes.
+This project builds a robust, end-to-end Machine Learning pipeline to analyze, preprocess, and classify customer credit risk. The core objective is to evaluate financial risk, helping to determine which profiles are eligible for higher credit limits and which present a higher risk of default.
 
-## Data Pipeline & Methodology
-The project is structured into two main phases using Python:
+## 💼 Business Problem & Objectives
+In the financial sector, accurately assessing credit risk is crucial to balance profitability and default rates. This repository contains a complete data science solution to:
+* **Understand the socio-economic and behavioral factors** that influence credit scores.
+* **Perform univariate and bivariate analyses** to uncover hidden patterns in data distributions.
+* **Clean, transform, and balance the dataset** addressing real-world issues like missing values and highly imbalanced classes.
+* **Train and evaluate a Predictive Model** capable of accurately classifying new applicants into Low, Average, or High credit scores.
+
+## ⚙️ Data Pipeline & Methodology
+The project is structured into three main phases using Python:
 
 ### 1. Exploratory Data Analysis (EDA)
-* **Univariate Analysis:** Inspecting individual vairiables (income, age, education) to understand their distribution and detect outliers using pandas.
-* **Bivariate Analysis:** Crossing applicant features with their credit history to identify strong correlations and risk indicators.
-* **Interactive Data Visualization:** Utilized **Plotly** to build dynamic, interactive charts, allowing for deeper, deep-dive isnpection of specific data poits and distributions.
+* **Univariate Analysis:** Inspecting individual variables (income, age, education) to understand their distribution and detect outliers using Pandas and Seaborn.
+* **Bivariate Analysis:** Crossing applicant features with their credit classification to identify strong correlations and risk indicators.
+* **Interactive Data Visualization:** Utilizing Plotly to build dynamic charts, allowing for a deeper look into specific data points and distributions.
 
-### 2. Data Preprocessing (Preparation for Machine Learning)
-* **Data Cleaning:** Handling missing records and incosistent strutural data using Pandas and NumPy.
-* **Feature Encoding & Scaling:** Preparing categorical variables and normalizing numerical scales using Scikit-Learn.
-* **Class Imbalance Handling:** Addressing the natural disproportion between good and bad payers to ensure future models don't biasedly favor the majority class.
-* **Train/Test Split:** Partitioned the dataset into training and testing subsets using Scikit-Learn to ensure an unbiased evaluation of future machine learning models and prevent data leakage.
+### 2. Data Preprocessing & Feature Engineering
+* **Data Cleaning:** Handling missing records and formatting inconsistent structural data (such as cleaning currency strings into numerical floats).
+* **Feature Encoding:** Transforming categorical features into numerical binaries via One-Hot Encoding (`pd.get_dummies`), avoiding data leakage by splitting the data first.
+* **Class Imbalance Handling:** Using **SMOTE (Synthetic Minority Over-sampling Technique)** strictly on the training set to balance the target classes (High, Average, Low) and prevent the model from biasedly favoring the majority class.
 
-## Technologies Used 
+### 3. Model Training & Evaluation
+* Trained a **Random Forest Classifier** on the balanced training data and evaluated its performance on an untouched test set (25% of the data).
+
+## 📊 Model Performance & Business Results
+
+The predictive pipeline utilized a **Random Forest Classifier** and achieved an outstanding overall **Accuracy of 94%** on the test dataset. Instead of just chasing high numbers, the model was evaluated based on metrics that directly impact financial risk:
+
+* **Perfect Risk Detection (Low Class - 100% Recall & Precision):** In credit scoring, the most expensive mistake for a financial institution is granting credit to a high-risk applicant (a False Negative). The model achieved a perfect score (**1.00**) in both identifying every single high-risk profile and ensuring zero false alarms for this class.
+* **Excellent Identification of High-Eligibility Profiles (High Class - 100% Precision):** The model achieved maximum precision when flagging clients with excellent credit quality. This ensures that credit limit expansions or premium product offers are strictly targeted at the right audience, safeguarding the bank's margin.
+* **Balanced Performance via SMOTE:** Despite the original dataset containing less than 9% of high-risk ('Low') profiles, the synthetic over-sampling strategy successfully trained the algorithm to recognize risk patterns without bias toward the majority class.
+
+### 🧠 Key Insights from the Results:
+* **Perfect Risk Detection (Low):** The model achieved a **100% Recall and Precision for the 'Low' credit score class**. In credit scoring, failing to detect a high-risk profile (false negative) is the most expensive mistake for a bank. The pipeline completely neutralized this risk.
+* **Robust Balanced Learning:** Despite the original dataset having only ~8% of 'Low' score instances, the implementation of SMOTE successfully enabled the algorithm to master the characteristics of high-risk clients.
+
+## 🛠️ Technologies Used
 * **Python** (Core workflow)
-* **Pandas** (Data manipulation, profiling and cleaning)
-* **Scikit-Learn** (Preprocessing transformers, LabelEncoder, OneHotEncoder and Model Selection)
-* **Plotly** (Interactive data visualization and dynamic plotting)
-* **Matplotlib & Seaborn** (Static data visualization)
-
-## Key Insights & Business Findings 
-The Exploratory Data Analysis revealed critical behavioral and demographic patterns regarding credit risk:
-* **Risk Indicators:** Certain features showed a strong correlation with higher credit risk, allowing the business to flag profiles that should receive conservative initial limits.
-* **High-Eligibility Profiles:** Clear socio-economic indicators were identified within the "good payers" class, mapping out the ideal target audience for credit limit expansions.
-* **Data Readiness:** Through the combined pipeline of 'LabelEncoder' and 'OneHotEncoder', the final dataset was completely transformed from raw, messy text into a clean, balanced and estructured format ready for Machine Learning modeling.
+* **Pandas & NumPy** (Data manipulation, profiling, and cleaning)
+* **Scikit-Learn** (Train/test split, Random Forest Classifier, and evaluation metrics)
+* **Imbalanced-Learn** (SMOTE for over-sampling)
+* **Plotly** (Interactive data visualization)
+* **Matplotlib & Seaborn** (Static data visualization and correlation heatmaps)
